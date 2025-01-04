@@ -1,0 +1,25 @@
+project/
+├── bot/
+│   ├── main.py                # Главный файл для запуска бота.
+│   ├── handlers/
+│   │   ├── tasks_handler.py   # Обработка задач (добавление, изменение, наследование).
+│   │   ├── finance_handler.py # Обработка финансовых данных.
+│   │   ├── webapp_handler.py  # Обработка запросов от Telegram Web App.
+│   │   └── logs_handler.py    # Логирование.
+│   ├── utils/
+│   │   ├── db_connector.py    # Подключение к базе данных.
+│   │   ├── gpt_helper.py      # Интеграция с GPT (если нужно).
+│   │   └── time_utils.py      # Утилиты для работы со временем.
+│   └── config.py              # Настройки приложения.
+│
+├── webapp/
+│   ├── index.html             # Веб-интерфейс для Telegram Web App.
+│   ├── styles.css             # Стили для интерфейса.
+│   └── app.js                 # Логика фронтенда (JavaScript).
+│
+├── data/
+│   ├── database.db            # Локальная база данных (SQLite/PostgreSQL).
+│   └── logs/                  # Логи работы приложения.
+│
+└── README.md                  # Документация проекта.
+
