@@ -5,13 +5,14 @@ from aiogram.types import WebAppInfo, ReplyKeyboardMarkup, KeyboardButton
 # Настройка логирования
 logger = logging.getLogger(__name__)
 
+
 async def handle_webapp(message: types.Message):
     """
     Обработчик команды /webapp для открытия Telegram Web App.
     """
     try:
         # Указываем URL Web App
-        web_app_url = "https://example.com/your-webapp"
+        web_app_url = "https://notker367.github.io/noteManager/"
 
         # Создаем кнопку с Web App
         keyboard = ReplyKeyboardMarkup(keyboard=[
