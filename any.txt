@@ -6,6 +6,10 @@ project/
 │   │   ├── finance_handler.py # Обработка финансовых данных.
 │   │   ├── webapp_handler.py  # Обработка запросов от Telegram Web App.
 │   │   └── logs_handler.py    # Логирование.
+│   ├── storage/
+│   │   ├── messages.json          # Хранение сообщений дня.
+│   │   ├── tasks.json             # Хранение задач.
+│   │   ├── finances.json          # Хранение финансовых данных.
 │   ├── utils/
 │   │   ├── db_connector.py    # Подключение к базе данных (если потребуется).
 │   │   ├── gpt_helper.py      # Интеграция с GPT (опционально).
@@ -18,10 +22,10 @@ project/
 │   └── app.js                 # Логика фронтенда (JavaScript).
 │
 ├── data/
-│   ├── storage/
-│   │   ├── messages.json          # Хранение сообщений дня.
-│   │   ├── tasks.json             # Хранение задач.
-│   │   ├── finances.json          # Хранение финансовых данных.
+│   ├── storage_test/
+│   │   ├── messages.json          # test Хранение сообщений дня.
+│   │   ├── tasks.json             # test Хранение задач.
+│   │   ├── finances.json          # test Хранение финансовых данных.
 │   ├── data_manager.py        # Управление данными: чтение и запись JSON.
 │   ├── Message.py
 │   ├── Task.py

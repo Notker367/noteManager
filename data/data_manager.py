@@ -2,14 +2,14 @@ import json
 from pathlib import Path
 import atexit
 
-# Определяем путь к папке data
-data_dir = Path("data")
-data_dir.mkdir(exist_ok=True)  # Создаем папку, если её нет
+# Определяем путь к папке storage
+storage_dir = Path("storage")
+storage_dir.mkdir(parents=True, exist_ok=True)  # Создаем папку, если её нет
 
 # Определяем пути к JSON-файлам
-messages_file = data_dir / "messages.json"
-tasks_file = data_dir / "tasks.json"
-finances_file = data_dir / "finances.json"
+messages_file = storage_dir / "messages.json"
+tasks_file = storage_dir / "tasks.json"
+finances_file = storage_dir / "finances.json"
 
 
 # Утилиты для работы с JSON

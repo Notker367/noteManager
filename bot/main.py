@@ -64,7 +64,7 @@ def register_handlers():
     dp.message.register(finance_handler.handle_finance_report, Command(commands=['financereport']))
 
     # Обработчик напоминаний о дедлайнах задач (например, ежедневная проверка)
-    dp.message.register(tasks_handler.handle_deadline_alerts)
+#    dp.message.register(tasks_handler.handle_deadline_alerts)
 
 
 async def main():

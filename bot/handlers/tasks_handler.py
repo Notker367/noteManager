@@ -1,91 +1,83 @@
-# Обработка задач (добавление, изменение, наследование).
 from aiogram import types
 from datetime import datetime, timedelta
+from data.Task import TaskManager, Task
+from data.data_manager import tasks_data
 
-# Список задач (вместо базы данных, пока что временное хранение)
-#hardcode
-tasks = []
+# Инициализация TaskManager
+tasks_manager = TaskManager(tasks_data=tasks_data)
 
 
 async def handle_add_task(message: types.Message):
     """
     Обработчик для добавления новой задачи.
-    Формат команды: /addtask <описание задачи> <срок (дни)>
+    Формат команды: /addtask <категория> <название> <срок (дни)> <описание>
     """
     try:
-        command_args = message.text.split(maxsplit=2)
-        if len(command_args) < 3:
-            await message.reply("Неверный формат команды. Используйте: /addtask <описание задачи> <срок (дни)>")
+        command_args = message.text.split(maxsplit=4)
+        if len(command_args) < 5:
+            await message.reply(
+                "Неверный формат команды. Используйте: /addtask <категория> <название> <срок (дни)> <описание>")
             return
 
-        description = command_args[1]
-        days = int(command_args[2])
+        category = command_args[1]
+        title = command_args[2]
+        days = int(command_args[3])
+        description = command_args[4]
         deadline = datetime.now() + timedelta(days=days)
 
-        task = {
-            "description": description,
-            "deadline": deadline,
-            "completed": False
-        }
-        tasks.append(task)
-
-        await message.reply(
-            f"Задача добавлена: \nОписание: {description}\nСрок: {deadline.strftime('%Y-%m-%d %H:%M:%S')}")
+        tasks_manager.add_task(category, title, description, deadline, priority=1)
+        await message.reply(f"Задача \"{title}\" успешно добавлена в категорию \"{category}\".")
     except ValueError:
         await message.reply("Неверный формат. Укажите число дней корректно.")
+    except Exception as e:
+        await message.reply(f"Ошибка: {str(e)}")
 
 
 async def handle_list_tasks(message: types.Message):
     """
-    Обработчик для отображения всех задач.
+    Обработчик для отображения всех задач в указанной категории.
     """
-    if not tasks:
-        await message.reply("Список задач пуст.")
-        return
+    command_args = message.text.split(maxsplit=1)
+    category = command_args[1] if len(command_args) > 1 else "day"  # Категория по умолчанию - "day"
 
-    response = "Ваши задачи:\n"
-    for i, task in enumerate(tasks, start=1):
-        status = "Выполнена" if task["completed"] else "Не выполнена"
-        response += (f"{i}. {task['description']}\n"
-                     f"   Срок: {task['deadline'].strftime('%Y-%m-%d %H:%M:%S')}\n"
-                     f"   Статус: {status}\n")
-    await message.reply(response)
-
-
-async def handle_deadline_alerts(message: types.Message):
-    """
-    Проверяет и сообщает о приближающихся сроках задач.
-    """
-    now = datetime.now()
-    urgent_tasks = [task for task in tasks if task["deadline"] < now + timedelta(days=1) and not task["completed"]]
-
-    if not urgent_tasks:
-        await message.reply("Нет задач с близким сроком.")
-        return
-
-    response = "Задачи с приближающимся сроком:\n"
-    for task in urgent_tasks:
-        response += f"- {task['description']} (до {task['deadline'].strftime('%Y-%m-%d %H:%M:%S')})\n"
-    await message.reply(response)
+    try:
+        tasks_message = tasks_manager.format_tasks_message(category)
+        await message.reply(tasks_message)
+    except ValueError as e:
+        await message.reply(str(e))
 
 
 async def handle_complete_task(message: types.Message):
     """
-    Отмечает задачу как выполненную.
-    Формат команды: /completetask <номер задачи>
+    Обработчик для отметки задачи как выполненной.
+    Формат команды: /completetask <ID задачи>
     """
     try:
         command_args = message.text.split(maxsplit=1)
         if len(command_args) < 2:
-            await message.reply("Неверный формат команды. Используйте: /completetask <номер задачи>")
+            await message.reply("Неверный формат команды. Используйте: /completetask <ID задачи>")
             return
 
-        task_index = int(command_args[1]) - 1
-        if task_index < 0 or task_index >= len(tasks):
-            await message.reply("Задача с таким номером не найдена.")
+        task_id = command_args[1]
+        tasks_manager.update_task(task_id, completed=True)
+        await message.reply(f"Задача с ID {task_id} отмечена как выполненная.")
+    except ValueError as e:
+        await message.reply(str(e))
+
+
+async def handle_delete_task(message: types.Message):
+    """
+    Обработчик для удаления задачи.
+    Формат команды: /deletetask <ID задачи>
+    """
+    try:
+        command_args = message.text.split(maxsplit=1)
+        if len(command_args) < 2:
+            await message.reply("Неверный формат команды. Используйте: /deletetask <ID задачи>")
             return
 
-        tasks[task_index]["completed"] = True
-        await message.reply(f"Задача \"{tasks[task_index]['description']}\" отмечена как выполненная.")
-    except ValueError:
-        await message.reply("Неверный формат. Укажите номер задачи корректно.")
+        task_id = command_args[1]
+        tasks_manager.delete_task(task_id)
+        await message.reply(f"Задача с ID {task_id} успешно удалена.")
+    except ValueError as e:
+        await message.reply(str(e))
