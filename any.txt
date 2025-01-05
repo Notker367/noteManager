@@ -18,14 +18,14 @@ project/
 │   └── app.js                 # Логика фронтенда (JavaScript).
 │
 ├── data/
+│   ├── storage/
+│   │   ├── messages.json          # Хранение сообщений дня.
+│   │   ├── tasks.json             # Хранение задач.
+│   │   ├── finances.json          # Хранение финансовых данных.
 │   ├── data_manager.py        # Управление данными: чтение и запись JSON.
-│   ├── messages.json          # Хранение сообщений дня.
-│   ├── tasks.json             # Хранение задач.
-│   ├── finances.json          # Хранение финансовых данных.
 │   ├── Message.py
 │   ├── Task.py
 │   ├── Finances.py
-│
 └── README.md                  # Документация проекта.
 
 
