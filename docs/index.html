@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,57 +7,63 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <nav>
+        <ul>
+            <li><a href="#">Главная</a></li>
+            <li><a href="#">Задачи</a></li>
+            <li><a href="#">Финансы</a></li>
+            <li><a href="#">Сообщения</a></li>
+        </ul>
+    </nav>
     <div class="container">
-        <!-- Сообщения -->
-        <div class="section messages">
+        <!-- Сообщение дня -->
+        <div class="section">
             <h2 class="section-title">Сообщение дня</h2>
-            <div class="section-body">
-                <p id="dailyMessage">Улыбнитесь, сегодня прекрасный день!</p>
-            </div>
-            <button class="expand-button" id="showAllMessages" data-tg-action="showDailyMessage">Показать все <span>&#x25BC;</span></button>
+            <p class="section-content">Улыбнитесь, сегодня прекрасный день!</p>
+            <div class="footer-line" data-tg-action="showDailyMessage"></div>
         </div>
 
         <!-- Задачи -->
-        <div class="section tasks">
+        <div class="section">
             <h2 class="section-title">Задачи</h2>
-            <div class="section-body">
-                <div class="header">
-                    <span class="completed">Выполнено: 5</span>
-                    <span class="pending">Невыполнено: 2</span>
+            <div class="numbers">
+                <div class="colored-numbers">
+                    <span class="green">5</span>
+                    <span class="red">2</span>
                 </div>
-                <div class="today">
-                    <h3>Осталось сегодня</h3>
-                    <ul>
-                        <li><input type="checkbox"> Задача 1 - 10:00</li>
-                        <li><input type="checkbox"> Задача 2 - 14:00</li>
-                    </ul>
-                </div>
+                <div class="black-number">7</div>
             </div>
-            <button class="expand-button" id="showAllTasks" data-tg-action="showTasks">Показать все <span>&#x25BC;</span></button>
+            <div class="section-body">
+                <h3>Осталось сегодня</h3>
+                <ul>
+                    <li><input type="checkbox"> Задача 1 <span>10:00</span></li>
+                    <li><input type="checkbox"> Задача 2 <span>14:00</span></li>
+                </ul>
+            </div>
+            <div class="footer-line" data-tg-action="showTasks"></div>
         </div>
 
         <!-- Финансы -->
-        <div class="section finances">
+        <div class="section">
             <h2 class="section-title">Финансы</h2>
-            <div class="section-body">
-                <div class="header">
-                    <span class="balance">Баланс: 15000 ₽</span>
-                    <span class="expenses">Расходы: 5000 ₽</span>
-                    <span class="remaining">Остаток: 10000 ₽</span>
+            <div class="numbers">
+                <div class="colored-numbers">
+                    <span class="green">15000₽</span>
+                    <span class="red">5000₽</span>
                 </div>
-                <div class="categories">
-                    <ul>
-                        <li>Продукты - 2000 ₽</li>
-                        <li>Вещи - 1500 ₽</li>
-                        <li>Обязательные - 1000 ₽</li>
-                        <li>Прочее - 500 ₽</li>
-                    </ul>
-                </div>
+                <div class="black-number">10000₽</div>
             </div>
-            <button class="expand-button" id="showAllFinances" data-tg-action="showFinances">Показать все <span>&#x25BC;</span></button>
+            <div class="section-body">
+                <ul>
+                    <li>Продукты <span>2000₽</span></li>
+                    <li>Вещи <span>1500₽</span></li>
+                    <li>Обязательные <span>1000₽</span></li>
+                    <li>Прочее <span>500₽</span></li>
+                </ul>
+            </div>
+            <div class="footer-line" data-tg-action="showFinances"></div>
         </div>
     </div>
-
     <script src="app.js"></script>
 </body>
 </html>
