@@ -1,6 +1,7 @@
 import uuid
 from datetime import datetime
 
+
 class Task:
     def __init__(self, title, description, deadline, priority=1, completed=False, task_id=None):
         self.id = task_id if task_id else self.generate_task_id()
@@ -13,7 +14,7 @@ class Task:
     @staticmethod
     def generate_task_id():
         """Генерирует уникальный идентификатор задачи."""
-        return f"task-{uuid.uuid4().hex[:8]}"
+        return f"{uuid.uuid4().hex[:8]}"
 
     @staticmethod
     def parse_deadline(deadline):
@@ -125,7 +126,8 @@ class TaskManager:
         if not tasks:
             return f"Нет задач в категории {category}."
 
-        months_rus = ["января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря"]
+        months_rus = ["января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября",
+                      "ноября", "декабря"]
 
         message = f"{category.capitalize()}:\n"
         for task in tasks:
