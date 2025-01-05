@@ -18,75 +18,21 @@ class JSONManager:
     def load(file_path):
         """Загружает данные из JSON файла."""
         if file_path.exists():
-            with open(file_path, "r", encoding="utf-8") as file:
-                return json.load(file)
-        return []  # Возвращаем пустой список, если файл не найден
+            with open(file_path, "r", encoding="utf-8") as j_file:
+                return json.load(j_file)
+        return {}  # Возвращаем пустой словарь, если файл не найден
 
     @staticmethod
     def save(file_path, data):
         """Сохраняет данные в JSON файл."""
-        with open(file_path, "w", encoding="utf-8") as file:
-            json.dump(data, file, indent=4, ensure_ascii=False)
-
-
-# Классы для работы с данными
-
-class Message:
-    def __init__(self, text, timestamp):
-        self.text = text
-        self.timestamp = timestamp
-
-    @classmethod
-    def from_json(cls, data):
-        return cls(data["text"], data["timestamp"])
-
-    def to_json(self):
-        return {
-            "text": self.text,
-            "timestamp": self.timestamp
-        }
-
-
-class Task:
-    def __init__(self, title, deadline, completed):
-        self.title = title
-        self.deadline = deadline
-        self.completed = completed
-
-    @classmethod
-    def from_json(cls, data):
-        return cls(data["title"], data["deadline"], data["completed"])
-
-    def to_json(self):
-        return {
-            "title": self.title,
-            "deadline": self.deadline,
-            "completed": self.completed
-        }
-
-
-class Finance:
-    def __init__(self, amount, category, timestamp):
-        self.amount = amount
-        self.category = category
-        self.timestamp = timestamp
-
-    @classmethod
-    def from_json(cls, data):
-        return cls(data["amount"], data["category"], data["timestamp"])
-
-    def to_json(self):
-        return {
-            "amount": self.amount,
-            "category": self.category,
-            "timestamp": self.timestamp
-        }
+        with open(file_path, "w", encoding="utf-8") as j_file:
+            json.dump(data, j_file, indent=4, ensure_ascii=False)
 
 
 # Инициализация файлов
 for file in [messages_file, tasks_file, finances_file]:
     if not file.exists():
-        JSONManager.save(file, [])
+        JSONManager.save(file, {})
 
 # Глобальные переменные для хранения данных
 messages_data = JSONManager.load(messages_file)
