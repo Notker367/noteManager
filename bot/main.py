@@ -3,7 +3,7 @@ from aiogram import Bot, Dispatcher, types
 from aiogram.types import BotCommand
 from aiogram.filters import Command
 import asyncio
-from data_manager import messages_data, tasks_data, finances_data, save_all_data
+from data.data_manager import messages_data, tasks_data, finances_data, save_all_data
 from config import BOT_TOKEN
 from handlers import tasks_handler, finance_handler, webapp_handler
 
