@@ -3,6 +3,7 @@ from aiogram import Bot, Dispatcher, types
 from aiogram.types import BotCommand
 from aiogram.filters import Command
 import asyncio
+from data_manager import messages_data, tasks_data, finances_data, save_all_data
 from config import BOT_TOKEN
 from handlers import tasks_handler, finance_handler, webapp_handler
 
@@ -36,6 +37,10 @@ async def on_startup():
     Здесь можно настроить логи, команды и подключение к базе данных.
     """
     logger.info("Bot is starting...")
+    logger.info("Загружаем данные:")
+    logger.info(f"Сообщения: {len(messages_data)} записей загружено")
+    logger.info(f"Задачи: {len(tasks_data)} записей загружено")
+    logger.info(f"Финансы: {len(finances_data)} записей загружено")
     await set_commands()  # Установка списка команд
 
 
@@ -71,7 +76,11 @@ async def main():
 
     # Запуск polling для обработки обновлений
     logger.info("Starting polling...")
-    await dp.start_polling(bot)
+    try:
+        await dp.start_polling(bot)
+    finally:
+        logger.info("Сохраняем данные перед завершением работы...")
+        save_all_data()
 
 
 if __name__ == "__main__":
