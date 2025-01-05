@@ -7,10 +7,10 @@ project/
 │   │   ├── webapp_handler.py  # Обработка запросов от Telegram Web App.
 │   │   └── logs_handler.py    # Логирование.
 │   ├── utils/
-│   │   ├── db_connector.py    # Подключение к базе данных.
-│   │   ├── gpt_helper.py      # Интеграция с GPT (если нужно).
+│   │   ├── db_connector.py    # Подключение к базе данных (если потребуется).
+│   │   ├── gpt_helper.py      # Интеграция с GPT (опционально).
 │   │   └── time_utils.py      # Утилиты для работы со временем.
-│   └── config.py              # Настройки приложения.
+│   └── config.py              # Настройки приложения (например, токены).
 │
 ├── docs/
 │   ├── index.html             # Веб-интерфейс для Telegram Web App.
@@ -18,10 +18,13 @@ project/
 │   └── app.js                 # Логика фронтенда (JavaScript).
 │
 ├── data/
-│   ├── database.db            # Локальная база данных (SQLite/PostgreSQL).
-│   └── logs/                  # Логи работы приложения.
+│   ├── data_manager.py        # Управление данными: чтение и запись JSON.
+│   ├── messages.json          # Хранение сообщений дня.
+│   ├── tasks.json             # Хранение задач.
+│   ├── finances.json          # Хранение финансовых данных.
 │
 └── README.md                  # Документация проекта.
+
 
 --Front
     - отступы нижней кнопки
