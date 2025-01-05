@@ -117,7 +117,7 @@ class TaskManager:
         else:
             raise ValueError("Invalid category")
 
-    def format_tasks_message(self, category):
+    def format_tasks_message(self, category, short=False):
         """Форматирует задачи в категории для отправки сообщением."""
         if category not in self.tasks:
             raise ValueError("Invalid category")
@@ -126,16 +126,29 @@ class TaskManager:
         if not tasks:
             return f"Нет задач в категории {category}."
 
-        months_rus = ["января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября",
-                      "ноября", "декабря"]
+        months_rus = ["января", "февраля", "марта",
+                      "апреля", "мая", "июня",
+                      "июля", "августа", "сентября",
+                      "октября", "ноября", "декабря"]
 
         message = f"{category.capitalize()}:\n"
         for task in tasks:
             status = "✔️" if task.completed else "❌"
-            deadline = task.deadline
-            formatted_deadline = f"{deadline.day} {months_rus[deadline.month - 1]} {deadline.hour:02}:{deadline.minute:02}"
 
-            message += (f"{status} {task.title} ({task.id})\n"
-                        f"{task.description}\n"
-                        f"Дедлайн: {formatted_deadline}\n\n")
+            deadline = task.deadline
+            deadline_day = f"{deadline.day} {months_rus[deadline.month - 1]}"
+            deadline_time = f"{deadline.hour:02}:{deadline.minute:02}"
+            # Если сегодня, дата не нужна
+            if category != "Day":
+                formatted_deadline = deadline_time
+            else:
+                formatted_deadline = f"{deadline_day} {deadline_time}"
+
+            # Короткий формат
+            if short:
+                message += f"{status} {task.title} - {formatted_deadline}\n"
+            else:
+                message += (f"{status} {task.title} ({task.id})\n"
+                            f"{task.description}\n"
+                            f"{formatted_deadline}\n\n")
         return message
