@@ -40,23 +40,44 @@ class TaskManager:
             "other": [task.to_json() for task in self.tasks["other"]],
         }
 
-    def add_task(self, category, task):
-        """Добавляет задачу в указанную категорию."""
+    def add_task(self, category, title, deadline, priority):
+        """Добавляет новую задачу в указанную категорию."""
+        new_task = Task(title, deadline, priority, False)
         if category in self.tasks:
-            self.tasks[category].append(task)
+            self.tasks[category].append(new_task)
         else:
             raise ValueError("Invalid category")
 
-    def remove_task(self, category, task_title):
-        """Удаляет задачу по названию из указанной категории."""
+    def update_task(self, category, title, **updates):
+        """Обновляет существующую задачу по названию."""
         if category in self.tasks:
-            self.tasks[category] = [task for task in self.tasks[category] if task.title != task_title]
+            for task in self.tasks[category]:
+                if task.title == title:
+                    for key, value in updates.items():
+                        if hasattr(task, key):
+                            setattr(task, key, value)
+                    break
         else:
             raise ValueError("Invalid category")
 
     def get_tasks_by_category(self, category):
-        """Возвращает список задач для указанной категории."""
+        """Возвращает список задач в указанной категории."""
         if category in self.tasks:
             return self.tasks[category]
         else:
             raise ValueError("Invalid category")
+
+    def format_tasks_message(self, category):
+        """Форматирует задачи в категории для отправки сообщением."""
+        if category not in self.tasks:
+            raise ValueError("Invalid category")
+
+        tasks = self.tasks[category]
+        if not tasks:
+            return f"Нет задач в категории {category}."
+
+        message = f"Задачи в категории {category}:\n"
+        for task in tasks:
+            status = "✔️" if task.completed else "❌"
+            message += f"{status} {task.title} (Дедлайн: {task.deadline}, Приоритет: {task.priority})\n"
+        return message

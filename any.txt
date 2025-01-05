@@ -22,6 +22,9 @@ project/
 │   ├── messages.json          # Хранение сообщений дня.
 │   ├── tasks.json             # Хранение задач.
 │   ├── finances.json          # Хранение финансовых данных.
+│   ├── Message.py
+│   ├── Task.py
+│   ├── Finances.py
 │
 └── README.md                  # Документация проекта.
 
