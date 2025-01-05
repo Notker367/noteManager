@@ -1,7 +1,6 @@
 import uuid
 from datetime import datetime
 
-
 class Task:
     def __init__(self, title, description, deadline, priority=1, completed=False, task_id=None):
         self.id = task_id if task_id else self.generate_task_id()
@@ -20,8 +19,13 @@ class Task:
     def parse_deadline(deadline):
         """Преобразует строку с датой в объект datetime."""
         if isinstance(deadline, str):
-            return datetime.fromisoformat(deadline)
-        return deadline
+            try:
+                return datetime.fromisoformat(deadline)
+            except ValueError:
+                raise ValueError("Invalid deadline format. Expected ISO format.")
+        if isinstance(deadline, datetime):
+            return deadline
+        raise TypeError("Deadline must be a string or datetime object.")
 
     def mark_as_completed(self):
         """Отмечает задачу как выполненную."""
@@ -41,6 +45,10 @@ class Task:
     @classmethod
     def from_json(cls, data):
         """Создает объект задачи из JSON-совместимого словаря."""
+        required_fields = ["title", "description", "deadline"]
+        for field in required_fields:
+            if field not in data:
+                raise ValueError(f"Missing required field: {field}")
         return cls(
             title=data["title"],
             description=data["description"],
@@ -117,9 +125,15 @@ class TaskManager:
         if not tasks:
             return f"Нет задач в категории {category}."
 
-        message = f"Задачи в категории {category}:\n"
+        months_rus = ["января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября", "октября", "ноября", "декабря"]
+
+        message = f"{category.capitalize()}:\n"
         for task in tasks:
             status = "✔️" if task.completed else "❌"
-            message += (f"{status} {task.title} (Дедлайн: {task.deadline.strftime('%Y-%m-%d %H:%M:%S')}, "
-                        f"Приоритет: {task.priority}, ID: {task.id})\n")
+            deadline = task.deadline
+            formatted_deadline = f"{deadline.day} {months_rus[deadline.month - 1]} {deadline.hour:02}:{deadline.minute:02}"
+
+            message += (f"{status} {task.title} ({task.id})\n"
+                        f"{task.description}\n"
+                        f"Дедлайн: {formatted_deadline}\n\n")
         return message
