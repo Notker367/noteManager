@@ -1,6 +1,7 @@
 import logging
 from aiogram import types
 from aiogram.types import WebAppInfo, ReplyKeyboardMarkup, KeyboardButton
+from bot.config import WEB_APP_URL
 
 # Настройка логирования
 logger = logging.getLogger(__name__)
@@ -12,7 +13,7 @@ async def handle_webapp(message: types.Message):
     """
     try:
         # Указываем URL Web App
-        web_app_url = "https://notker367.github.io/noteManager/"
+        web_app_url = WEB_APP_URL
 
         # Создаем кнопку с Web App
         keyboard = ReplyKeyboardMarkup(keyboard=[
